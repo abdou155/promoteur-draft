@@ -4,7 +4,7 @@ export const zoomIn = (scale: number, duration: number) => ({
     scale,
     transition: {
       duration,
-      ease: "easeOut",
+      ease: 'easeOut',
     },
   },
   show: {
@@ -12,7 +12,7 @@ export const zoomIn = (scale: number, duration: number) => ({
     scale: 1,
     transition: {
       duration,
-      ease: "easeOut",
+      ease: 'easeOut',
     },
   },
 });
@@ -22,33 +22,33 @@ export const fadeIn = {
     opacity: 0,
     transition: {
       duration: 0.15,
-      type: "tween",
-      ease: "easeIn",
+      type: 'tween',
+      ease: 'easeIn',
     },
   },
   show: {
     opacity: 1,
     transition: {
       duration: 0.15,
-      type: "tween",
-      ease: "easeIn"
+      type: 'tween',
+      ease: 'easeIn',
     },
   },
 };
 
 export const slideIn = (
-  direction: "up" | "down" | "left" | "right",
-  type: "tween" | "spring",
-  duration: number
+  direction: 'up' | 'down' | 'left' | 'right',
+  type: 'tween' | 'spring',
+  duration: number,
 ) => ({
   hidden: {
-    x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
-    y: direction === "up" ? "100%" : direction === "down" ? "-100%" : 0,
+    x: direction === 'left' ? '-100%' : direction === 'right' ? '100%' : 0,
+    y: direction === 'up' ? '100%' : direction === 'down' ? '-100%' : 0,
     opacity: 0,
     transition: {
       duration,
       type,
-      ease: "easeOut"
+      ease: 'easeOut',
     },
   },
   show: {
@@ -58,7 +58,7 @@ export const slideIn = (
     transition: {
       type,
       duration,
-      ease: "easeInOut"
+      ease: 'easeInOut',
     },
   },
 });

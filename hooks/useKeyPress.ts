@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 interface IUseKeyPress {
   key: string;
@@ -13,11 +13,11 @@ export const useKeyPress = ({ key, action, enable = true }: IUseKeyPress) => {
     };
 
     if (enable) {
-      window.addEventListener("keydown", onKeyDown);
+      window.addEventListener('keydown', onKeyDown);
     } else {
-      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener('keydown', onKeyDown);
     }
 
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [action, key, enable]);
 };

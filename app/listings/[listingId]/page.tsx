@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import EmptyState from "@/components/EmptyState";
-import ListingHead from "./_components/ListingHead";
-import ListingInfo from "./_components/ListingInfo";
-import ListingClient from "./_components/ListingClient";
+import EmptyState from '@/components/EmptyState';
+import ListingHead from './_components/ListingHead';
+import ListingInfo from './_components/ListingInfo';
+import ListingClient from './_components/ListingClient';
 
-import { getCurrentUser } from "@/services/user";
-import { getListingById } from "@/services/listing";
-import { categories } from "@/utils/constants";
+import { getCurrentUser } from '@/services/user';
+import { getListingById } from '@/services/listing';
+import { categories } from '@/utils/constants';
 
 interface IParams {
   listingId: string;
@@ -40,13 +40,7 @@ const ListingPage = async ({ params: { listingId } }: { params: IParams }) => {
   return (
     <section className="main-container">
       <div className="flex flex-col gap-6">
-        <ListingHead
-          title={title}
-          image={imageSrc}
-          country={country}
-          region={region}
-          id={id}
-        />
+        <ListingHead title={title} image={imageSrc} country={country} region={region} id={id} />
       </div>
 
       <ListingClient

@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
-import React from "react";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import marketIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import React from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { MapContainer, Marker, TileLayer } from 'react-leaflet';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import marketIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 // @ts-ignore
 delete L.Icon.Default.prototype._getIconUrl;

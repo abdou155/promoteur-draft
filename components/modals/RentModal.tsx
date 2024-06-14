@@ -1,32 +1,32 @@
-"use client";
-import React, { useMemo, useState, useTransition } from "react";
-import dynamic from "next/dynamic";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { BiDollar } from "react-icons/bi";
+'use client';
+import React, { useMemo, useState, useTransition } from 'react';
+import dynamic from 'next/dynamic';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { BiDollar } from 'react-icons/bi';
 
-import Modal from "./Modal";
-import Button from "../Button";
-import SpinnerMini from "../Loader";
-import Heading from "../Heading";
-import Counter from "../inputs/Counter";
-import Input from "../inputs/Input";
-import CategoryButton from "../inputs/CategoryButton";
-import CountrySelect from "../inputs/CountrySelect";
-import ImageUpload from "../ImageUpload";
+import Modal from './Modal';
+import Button from '../Button';
+import SpinnerMini from '../Loader';
+import Heading from '../Heading';
+import Counter from '../inputs/Counter';
+import Input from '../inputs/Input';
+import CategoryButton from '../inputs/CategoryButton';
+import CountrySelect from '../inputs/CountrySelect';
+import ImageUpload from '../ImageUpload';
 
-import { categories } from "@/utils/constants";
-import { createListing } from "@/services/listing";
+import { categories } from '@/utils/constants';
+import { createListing } from '@/services/listing';
 
 const steps = {
-  "0": "category",
-  "1": "location",
-  "2": "guestCount",
-  "3": "image",
-  "4": "title",
-  "5": "price",
+  '0': 'category',
+  '1': 'location',
+  '2': 'guestCount',
+  '3': 'image',
+  '4': 'title',
+  '5': 'price',
 };
 
 enum STEPS {
@@ -53,28 +53,28 @@ const RentModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
     getValues,
   } = useForm<FieldValues>({
     defaultValues: {
-      category: "Beach",
+      category: 'Beach',
       location: null,
       guestCount: 1,
       bathroomCount: 1,
       roomCount: 1,
-      image: "",
-      price: "",
-      title: "",
-      description: "",
+      image: '',
+      price: '',
+      title: '',
+      description: '',
     },
   });
 
-  const location = watch("location");
+  const location = watch('location');
   const country = location?.label;
 
   const Map = useMemo(
     () =>
-      dynamic(() => import("../Map"), {
+      dynamic(() => import('../Map'), {
         ssr: false,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [country]
+    [country],
   );
 
   const setCustomValue = (id: string, value: any) => {
@@ -101,7 +101,7 @@ const RentModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
         const newListing = await createListing(data);
         toast.success(`${data.title} added successfully!`);
         queryClient.invalidateQueries({
-          queryKey: ["listings"],
+          queryKey: ['listings'],
         });
         reset();
         setStep(STEPS.CATEGORY);
@@ -109,8 +109,8 @@ const RentModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
         router.refresh();
         router.push(`/listings/${newListing.id}`);
       } catch (error: any) {
-        toast.error("Failed to create listing!");
-        console.log(error?.message)
+        toast.error('Failed to create listing!');
+        console.log(error?.message);
       }
     });
   };
@@ -120,10 +120,7 @@ const RentModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
       case STEPS.LOCATION:
         return (
           <div className="flex flex-col gap-6">
-            <Heading
-              title="Where is your place located?"
-              subtitle="Help guests find you!"
-            />
+            <Heading title="Where is your place located?" subtitle="Help guests find you!" />
             <CountrySelect value={location} onChange={setCustomValue} />
             <div className="h-[240px]">
               <Map center={location?.latlng} />
@@ -171,10 +168,7 @@ const RentModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
               title="Add a photo of your place"
               subtitle="Show guests what your place looks like!"
             />
-            <ImageUpload
-              onChange={setCustomValue}
-              initialImage={getValues("image")}
-            />
+            <ImageUpload onChange={setCustomValue} initialImage={getValues('image')} />
           </div>
         );
 
@@ -211,10 +205,7 @@ const RentModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
       case STEPS.PRICE:
         return (
           <div className="flex flex-col gap-6">
-            <Heading
-              title="Now, set your price"
-              subtitle="How much do you charge per night?"
-            />
+            <Heading title="Now, set your price" subtitle="How much do you charge per night?" />
             <Input
               key="price"
               id="price"
@@ -234,19 +225,16 @@ const RentModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
       default:
         return (
           <div className="flex flex-col gap-2">
-            <Heading
-              title="Which of these best describes your place?"
-              subtitle="Pick a category"
-            />
-            <div className="flex-1 grid grid-cols-2  gap-3 max-h-[60vh] lg:max-h-[260px] overflow-y-scroll scroll-smooth">
+            <Heading title="Which of these best describes your place?" subtitle="Pick a category" />
+            <div className="grid max-h-[60vh] flex-1 grid-cols-2 gap-3 overflow-y-scroll scroll-smooth lg:max-h-[260px]">
               {categories.map((item) => (
-                  <CategoryButton
-                    onClick={setCustomValue}
-                    watch={watch}
-                    label={item.label}
-                    icon={item.icon}
-                    key={item.label}
-                  />
+                <CategoryButton
+                  onClick={setCustomValue}
+                  watch={watch}
+                  label={item.label}
+                  icon={item.icon}
+                  key={item.label}
+                />
               ))}
             </div>
           </div>
@@ -257,19 +245,19 @@ const RentModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
   const isFieldFilled = !!getValues(steps[step]);
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="flex h-full w-full flex-col">
       <Modal.WindowHeader title="Share your home!" />
       <form
-        className="flex-1  md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none "
+        className="relative flex w-full flex-1 flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none md:h-auto"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="relative p-6">{body()}</div>
         <div className="flex flex-col gap-2 px-6 pb-6 pt-3">
-          <div className="flex flex-row items-center gap-4 w-full">
+          <div className="flex w-full flex-row items-center gap-4">
             {step !== STEPS.CATEGORY ? (
               <Button
                 type="button"
-                className="flex items-center gap-2 justify-center"
+                className="flex items-center justify-center gap-2"
                 onClick={onBack}
                 outline
               >
@@ -278,16 +266,10 @@ const RentModal = ({ onCloseModal }: { onCloseModal?: () => void }) => {
             ) : null}
             <Button
               type="submit"
-              className="flex items-center gap-2 justify-center"
+              className="flex items-center justify-center gap-2"
               disabled={isLoading || !isFieldFilled}
             >
-              {isLoading ? (
-                <SpinnerMini />
-              ) : step === STEPS.PRICE ? (
-                "Create"
-              ) : (
-                "Next"
-              )}
+              {isLoading ? <SpinnerMini /> : step === STEPS.PRICE ? 'Create' : 'Next'}
             </Button>
           </div>
         </div>

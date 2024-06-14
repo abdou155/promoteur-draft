@@ -1,7 +1,7 @@
-"use server";
-import { db } from "@/lib/db";
-import { LISTINGS_BATCH } from "@/utils/constants";
-import { getCurrentUser } from "./user";
+'use server';
+import { db } from '@/lib/db';
+import { LISTINGS_BATCH } from '@/utils/constants';
+import { getCurrentUser } from './user';
 
 export const getListings = async (query?: {
   [key: string]: string | string[] | undefined | null;
@@ -73,7 +73,7 @@ export const getListings = async (query?: {
     const filterQuery: any = {
       where,
       take: LISTINGS_BATCH,
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     };
 
     if (cursor) {
@@ -83,10 +83,7 @@ export const getListings = async (query?: {
 
     const listings = await db.listing.findMany(filterQuery);
 
-    const nextCursor =
-      listings.length === LISTINGS_BATCH
-        ? listings[LISTINGS_BATCH - 1].id
-        : null;
+    const nextCursor = listings.length === LISTINGS_BATCH ? listings[LISTINGS_BATCH - 1].id : null;
 
     return {
       listings,
@@ -139,12 +136,12 @@ export const createListing = async (data: { [x: string]: any }) => {
 
   Object.keys(data).forEach((value: any) => {
     if (!data[value]) {
-      throw new Error("Invalid data");
+      throw new Error('Invalid data');
     }
   });
 
   const user = await getCurrentUser();
-  if (!user) throw new Error("Unauthorized!");
+  if (!user) throw new Error('Unauthorized!');
 
   const listing = await db.listing.create({
     data: {

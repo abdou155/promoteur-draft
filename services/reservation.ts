@@ -1,10 +1,10 @@
-"use server";
-import { revalidatePath } from "next/cache";
-import { Listing, Reservation } from "@prisma/client";
+'use server';
+import { revalidatePath } from 'next/cache';
+import { Listing, Reservation } from '@prisma/client';
 
-import { db } from "@/lib/db";
-import { LISTINGS_BATCH } from "@/utils/constants";
-import { getCurrentUser } from "./user";
+import { db } from '@/lib/db';
+import { LISTINGS_BATCH } from '@/utils/constants';
+import { getCurrentUser } from './user';
 
 export const getReservations = async (args: Record<string, string>) => {
   try {
@@ -30,7 +30,7 @@ export const getReservations = async (args: Record<string, string>) => {
       include: {
         listing: true,
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     };
 
     if (cursor) {
@@ -43,9 +43,7 @@ export const getReservations = async (args: Record<string, string>) => {
     })) as (Reservation & { listing: Listing })[];
 
     const nextCursor =
-      reservations.length === LISTINGS_BATCH
-        ? reservations[LISTINGS_BATCH - 1].id
-        : null;
+      reservations.length === LISTINGS_BATCH ? reservations[LISTINGS_BATCH - 1].id : null;
 
     const listings = reservations.map((reservation) => {
       const { id, startDate, endDate, totalPrice, listing } = reservation;
@@ -81,13 +79,12 @@ export const createReservation = async ({
   totalPrice: number;
 }) => {
   try {
-    if (!listingId || !startDate || !endDate || !totalPrice)
-      throw new Error("Invalid data");
+    if (!listingId || !startDate || !endDate || !totalPrice) throw new Error('Invalid data');
 
     const user = await getCurrentUser();
 
     if (!user) {
-      throw new Error("Please log in to reserve!");
+      throw new Error('Please log in to reserve!');
     }
 
     await db.listing.update({
@@ -117,40 +114,36 @@ export const deleteReservation = async (reservationId: string) => {
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
 
-    if (!reservationId || typeof reservationId !== "string") {
-      throw new Error("Invalid ID");
+    if (!reservationId || typeof reservationId !== 'string') {
+      throw new Error('Invalid ID');
     }
-
 
     const reservation = await db.reservation.findUnique({
       where: {
         id: reservationId,
-      }
+      },
     });
 
     if (!reservation) {
-      throw new Error("Reservation not found!");
+      throw new Error('Reservation not found!');
     }
 
     await db.reservation.deleteMany({
       where: {
         id: reservationId,
-        OR: [
-          { userId: currentUser.id },
-          { listing: { userId: currentUser.id } },
-        ],
+        OR: [{ userId: currentUser.id }, { listing: { userId: currentUser.id } }],
       },
     });
 
-    revalidatePath("/reservations");
+    revalidatePath('/reservations');
     revalidatePath(`/listings/${reservation.listingId}`);
-    revalidatePath("/trips");
+    revalidatePath('/trips');
 
     return reservation;
   } catch (error: any) {
-    throw new Error(error.message)
+    throw new Error(error.message);
   }
 };

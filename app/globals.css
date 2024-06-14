@@ -18,7 +18,7 @@
 
 body {
   overflow-x: hidden;
-  overflow-y: scroll
+  overflow-y: scroll;
 }
 
 .no-scroll {
@@ -27,11 +27,11 @@ body {
 }
 
 .main-container {
-  @apply max-w-[1140px] mx-auto xl:px-0 px-4;
+  @apply mx-auto max-w-[1140px] px-4 xl:px-0;
 }
 
 .swiper-wrapper {
-  @apply md:gap-2 gap-1 justify-between;
+  @apply justify-between gap-1 md:gap-2;
 }
 
 .leaflet-bottom,
@@ -60,7 +60,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-rose-400 transition-all duration-300 rounded-[25px];
+  @apply rounded-[25px] bg-rose-400 transition-all duration-300;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -68,7 +68,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-rose-100 rounded-[25px];
+  @apply rounded-[25px] bg-rose-100;
 }
 
 ::-webkit-scrollbar-corner {

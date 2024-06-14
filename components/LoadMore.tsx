@@ -1,10 +1,10 @@
-"use client";
-import React, { FC } from "react";
-import { Listing } from "@prisma/client";
-import { useInfiniteQuery } from "@tanstack/react-query";
+'use client';
+import React, { FC } from 'react';
+import { Listing } from '@prisma/client';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
-import ListingCard, { ListingSkeleton } from "./ListingCard";
-import { useLoadMore } from "@/hooks/useLoadMore";
+import ListingCard, { ListingSkeleton } from './ListingCard';
+import { useLoadMore } from '@/hooks/useLoadMore';
 
 interface LoadMoreProps {
   nextCursor: string;
@@ -17,26 +17,18 @@ interface LoadMoreProps {
   favorites: string[];
 }
 
-const LoadMore: FC<LoadMoreProps> = ({
-  nextCursor,
-  fnArgs,
-  queryFn,
-  queryKey,
-  favorites,
-}) => {
-  const { data, isFetchingNextPage, hasNextPage, status, fetchNextPage } =
-    useInfiniteQuery({
-      queryFn: ({ pageParam = nextCursor }) =>
-        queryFn({ ...fnArgs, cursor: pageParam }),
-      queryKey,
-      getNextPageParam: (lastPage) => lastPage?.nextCursor,
-    });
+const LoadMore: FC<LoadMoreProps> = ({ nextCursor, fnArgs, queryFn, queryKey, favorites }) => {
+  const { data, isFetchingNextPage, hasNextPage, status, fetchNextPage } = useInfiniteQuery({
+    queryFn: ({ pageParam = nextCursor }) => queryFn({ ...fnArgs, cursor: pageParam }),
+    queryKey,
+    getNextPageParam: (lastPage) => lastPage?.nextCursor,
+  });
 
   const { ref } = useLoadMore(
     fetchNextPage,
     hasNextPage,
-    status === "loading" || isFetchingNextPage,
-    status === "error"
+    status === 'loading' || isFetchingNextPage,
+    status === 'error',
   );
 
   return (
@@ -52,7 +44,7 @@ const LoadMore: FC<LoadMoreProps> = ({
                   endDate: Date;
                   totalPrice: number;
                 };
-              }
+              },
             ) => {
               const hasFavorited = favorites.includes(listing.id);
               return (
@@ -63,23 +55,19 @@ const LoadMore: FC<LoadMoreProps> = ({
                   reservation={listing?.reservation}
                 />
               );
-            }
+            },
           )}
         </React.Fragment>
       ))}
-      {(status === "loading" || isFetchingNextPage) && (
+      {(status === 'loading' || isFetchingNextPage) && (
         <>
-          {Array.from({ length: 4 }).map(
-            (_item: any, i: number) => (
-              <ListingSkeleton key={i} />
-            )
-          )}
+          {Array.from({ length: 4 }).map((_item: any, i: number) => (
+            <ListingSkeleton key={i} />
+          ))}
         </>
       )}
-      {status === "error" && (
-        <p className="text-xl mt-8 text-center font-semibold">
-          Something went wrong!
-        </p>
+      {status === 'error' && (
+        <p className="mt-8 text-center text-xl font-semibold">Something went wrong!</p>
       )}
       <div ref={ref} />
     </>

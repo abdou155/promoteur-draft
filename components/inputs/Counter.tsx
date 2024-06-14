@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { FieldValues, UseFormWatch } from "react-hook-form";
+import React from 'react';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { FieldValues, UseFormWatch } from 'react-hook-form';
 
 interface CounterProps {
   title: string;
@@ -12,15 +12,9 @@ interface CounterProps {
   watch: UseFormWatch<FieldValues>;
 }
 
-const Counter: React.FC<CounterProps> = ({
-  title,
-  subtitle,
-  onChange,
-  name,
-  watch,
-}) => {
+const Counter: React.FC<CounterProps> = ({ title, subtitle, onChange, name, watch }) => {
   const value = watch(name);
-  
+
   const onAdd = () => {
     onChange(name, value + 1);
   };
@@ -34,23 +28,22 @@ const Counter: React.FC<CounterProps> = ({
     <div className="flex flex-row items-center justify-between">
       <div className="flex flex-col">
         <h3 className="font-semibold">{title}</h3>
-        <p className="font-light text-gray-600 text-[15.5px]">{subtitle}</p>
+        <p className="text-[15.5px] font-light text-gray-600">{subtitle}</p>
       </div>
       <div className="flex flex-row items-center gap-4">
-        <button type="button"
+        <button
+          type="button"
           onClick={onReduce}
-          className=" w-8 h-8 rounded-full border-[1px]  border-neutral-400 flex
-          items-center justify-center text-neutral-600 cursor-pointer hover:opacity-80  transition"
+          className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1px] border-neutral-400 text-neutral-600 transition hover:opacity-80"
         >
           <AiOutlineMinus />
         </button>
-        <span className=" font-light text-lg text-neutral-600 select-none">
-          {value}
-        </span>
-        <button type="button"
+        <span className="select-none text-lg font-light text-neutral-600">{value}</span>
+        <button
+          type="button"
           onClick={onAdd}
-          className=" w-8 h-8 rounded-full border-[1px] border-neutral-400 flex items-center justify-center  text-neutral-600 cursor-pointer hover:opacity-80 transition"
-          autoFocus={title === "Guests"}
+          className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-[1px] border-neutral-400 text-neutral-600 transition hover:opacity-80"
+          autoFocus={title === 'Guests'}
         >
           <AiOutlinePlus />
         </button>

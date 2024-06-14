@@ -1,28 +1,22 @@
-"use client";
-import React, { useTransition, useState, useEffect } from "react";
-import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+'use client';
+import React, { useTransition, useState, useEffect } from 'react';
+import { AiFillGithub } from 'react-icons/ai';
+import { FcGoogle } from 'react-icons/fc';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { signIn } from 'next-auth/react';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
-import Heading from "../Heading";
-import Input from "../inputs/Input";
-import Button from "../Button";
-import Modal from "./Modal";
-import SpinnerMini from "../Loader";
-import { registerUser } from "@/services/auth";
+import Heading from '../Heading';
+import Input from '../inputs/Input';
+import Button from '../Button';
+import Modal from './Modal';
+import SpinnerMini from '../Loader';
+import { registerUser } from '@/services/auth';
 
-const AuthModal = ({
-  name,
-  onCloseModal,
-}: {
-  name?: string;
-  onCloseModal?: () => void;
-}) => {
+const AuthModal = ({ name, onCloseModal }: { name?: string; onCloseModal?: () => void }) => {
   const [isLoading, startTransition] = useTransition();
-  const [title, setTitle] = useState(name || "");
+  const [title, setTitle] = useState(name || '');
   const {
     register,
     handleSubmit,
@@ -33,20 +27,20 @@ const AuthModal = ({
     setFocus,
   } = useForm<FieldValues>({
     defaultValues: {
-      email: "",
-      password: "",
-      name: "",
+      email: '',
+      password: '',
+      name: '',
     },
   });
   const router = useRouter();
-  const isLoginModal = title === "Login";
+  const isLoginModal = title === 'Login';
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (isLoginModal) {
-        setFocus("email");
+        setFocus('email');
       } else {
-        setFocus("name");
+        setFocus('name');
       }
     }, 300);
 
@@ -54,7 +48,7 @@ const AuthModal = ({
   }, [isLoginModal, setFocus]);
 
   const onToggle = () => {
-    const newTitle = isLoginModal ? "Sign up" : "Login";
+    const newTitle = isLoginModal ? 'Sign up' : 'Login';
     setTitle(newTitle);
     reset();
   };
@@ -65,7 +59,7 @@ const AuthModal = ({
     startTransition(async () => {
       try {
         if (isLoginModal) {
-          const callback = await signIn("credentials", {
+          const callback = await signIn('credentials', {
             email,
             password,
             redirect: false,
@@ -81,7 +75,7 @@ const AuthModal = ({
           }
         } else {
           await registerUser({ email, password, name });
-          setTitle("Login");
+          setTitle('Login');
           toast.success("You've successfully registered.");
           reset();
         }
@@ -89,11 +83,11 @@ const AuthModal = ({
         toast.error(error.message);
         if (isLoginModal) {
           reset();
-          setError("email", {});
-          setError("password", {});
+          setError('email', {});
+          setError('password', {});
           setTimeout(() => {
-            setFocus("email");
-          }, 100)
+            setFocus('email');
+          }, 100);
         }
       }
     });
@@ -104,16 +98,12 @@ const AuthModal = ({
       <Modal.WindowHeader title={title} />
 
       <form
-        className="flex flex-col gap-5 p-6 pb-0 w-full h-full"
+        className="flex h-full w-full flex-col gap-5 p-6 pb-0"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Heading
-          title={!isLoginModal ? "Welcome to Airbnb" : "Welcome back"}
-          subtitle={
-            title === "Sign up"
-              ? "Create an account!"
-              : "Login to your account!"
-          }
+          title={!isLoginModal ? 'Welcome to Airbnb' : 'Welcome back'}
+          subtitle={title === 'Sign up' ? 'Create an account!' : 'Login to your account!'}
         />
 
         {!isLoginModal && (
@@ -149,57 +139,39 @@ const AuthModal = ({
           watch={watch}
         />
 
-        <Button
-          type="submit"
-          className="flex items-center justify-center h-[42px]"
-        >
-          {isLoading ? <SpinnerMini className="w-5 h-5" /> : "Continue"}
+        <Button type="submit" className="flex h-[42px] items-center justify-center">
+          {isLoading ? <SpinnerMini className="h-5 w-5" /> : 'Continue'}
         </Button>
       </form>
-      <div className="flex flex-col gap-4 mt-3 p-6 pt-0">
+      <div className="mt-3 flex flex-col gap-4 p-6 pt-0">
         <hr />
         <Button
           outline
-          onClick={() => signIn("google")}
-          className="flex flex-row justify-center gap-2 items-center px-3 py-2"
+          onClick={() => signIn('google')}
+          className="flex flex-row items-center justify-center gap-2 px-3 py-2"
         >
-          <FcGoogle className="w-6 h-6" />
+          <FcGoogle className="h-6 w-6" />
           <span className="text-[14px]">Continue with Google</span>
         </Button>
         <Button
           outline
-          onClick={() => signIn("github")}
-          className="flex flex-row justify-center gap-2 items-center px-3 py-2"
+          onClick={() => signIn('github')}
+          className="flex flex-row items-center justify-center gap-2 px-3 py-2"
         >
-          <AiFillGithub className="w-6 h-6" />
+          <AiFillGithub className="h-6 w-6" />
           <span className="text-[14px]">Continue with Github</span>
         </Button>
-        <div
-          className="
-            text-neutral-500 
-          text-center 
-          mt-2 
-          font-light
-        "
-        >
+        <div className="mt-2 text-center font-light text-neutral-500">
           <div className="text-[15px]">
             <small className="text-[15px]">
-              {!isLoginModal
-                ? "Already have an account?"
-                : "First time using Airbnb?"}
+              {!isLoginModal ? 'Already have an account?' : 'First time using Airbnb?'}
             </small>
             <button
               type="button"
               onClick={onToggle}
-              className="
-              text-neutral-800
-              cursor-pointer 
-              hover:underline
-              ml-1
-              font-medium
-              "
+              className="ml-1 cursor-pointer font-medium text-neutral-800 hover:underline"
             >
-              {!isLoginModal ? "Log in" : "Create an account"}
+              {!isLoginModal ? 'Log in' : 'Create an account'}
             </button>
           </div>
         </div>
