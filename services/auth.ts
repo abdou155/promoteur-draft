@@ -1,6 +1,6 @@
-"use server";
-import { db } from "@/lib/db";
-import bcrypt from "bcrypt";
+'use server';
+import { db } from '@/lib/db';
+import bcrypt from 'bcrypt';
 
 export const registerUser = async ({
   name,
@@ -12,8 +12,7 @@ export const registerUser = async ({
   password: string;
 }) => {
   try {
-    if (!name || !email || !inputPassword)
-      throw new Error("Please provide all credentials");
+    if (!name || !email || !inputPassword) throw new Error('Please provide all credentials');
     const hashedPassword = await bcrypt.hash(inputPassword, 12);
 
     const user = await db.user.create({
@@ -30,6 +29,7 @@ export const registerUser = async ({
       name: user.name,
     };
   } catch (error: any) {
+    console.log('🚀 ~ error:', error);
     throw new Error(error.message);
   }
 };

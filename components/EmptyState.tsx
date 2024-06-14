@@ -1,6 +1,6 @@
-import React from "react";
-import Heading from "./Heading";
-import Link from "next/link";
+import React from 'react';
+import Heading from './Heading';
+import Link from 'next/link';
 
 interface EmptyProps {
   title?: string;
@@ -9,18 +9,18 @@ interface EmptyProps {
 }
 
 const EmptyState: React.FC<EmptyProps> = ({
-  title = "No exact matches",
-  subtitle = "Try changing or removing some of your filters.",
+  title = 'No exact matches',
+  subtitle = 'Try changing or removing some of your filters.',
   showReset,
 }) => {
   return (
-    <div className=" h-[60vh] flex flex-col gap-2 justify-center items-center">
+    <div className="flex h-[60vh] flex-col items-center justify-center gap-2">
       <Heading center title={title} subtitle={subtitle} />
-      <div className="w-48 mt-4">
+      <div className="mt-4 w-48">
         {showReset && (
           <Link
             href="/"
-            className="bg-white border-[1px] border-gray-500 text-[#4e4e4e] rounded hover:opacity-80 transition "
+            className="rounded border-[1px] border-gray-500 bg-white text-[#4e4e4e] transition hover:opacity-80"
           >
             Remove all filters
           </Link>

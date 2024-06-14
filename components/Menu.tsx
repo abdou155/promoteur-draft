@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, {
   FC,
   ReactElement,
@@ -7,17 +7,17 @@ import React, {
   createContext,
   useContext,
   useState,
-} from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useOutsideClick } from "@/hooks/useOutsideClick";
-import { zoomIn } from "@/utils/motion";
-import { cn } from "@/utils/helper";
-import { useKeyPress } from "@/hooks/useKeyPress";
+} from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { zoomIn } from '@/utils/motion';
+import { cn } from '@/utils/helper';
+import { useKeyPress } from '@/hooks/useKeyPress';
 
 const MenuContext = createContext({
-  openId: "",
-  setOpenId: (val: string) => { },
-  close: () => { },
+  openId: '',
+  setOpenId: (val: string) => {},
+  close: () => {},
 });
 
 interface ToggleProps {
@@ -33,7 +33,7 @@ const Toggle: FC<ToggleProps> = ({ children, id, className }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    (openId === "" || openId !== id) ? setOpenId(id) : close();
+    openId === '' || openId !== id ? setOpenId(id) : close();
   };
 
   return <>{cloneElement(children, { onClick: handleClick })}</>;
@@ -42,25 +42,21 @@ const Toggle: FC<ToggleProps> = ({ children, id, className }) => {
 interface ListProps {
   children: ReactNode;
   className?: string;
-  position?: "bottom-left" | "bottom-right";
+  position?: 'bottom-left' | 'bottom-right';
 }
 
-const List: FC<ListProps> = ({
-  children,
-  className,
-  position = "bottom-right",
-}) => {
+const List: FC<ListProps> = ({ children, className, position = 'bottom-right' }) => {
   const { openId, close } = useContext(MenuContext);
   const { ref } = useOutsideClick({
     action: close,
     listenCapturing: false,
-    enable: !!openId
+    enable: !!openId,
   });
-  
+
   useKeyPress({
-    key: "Escape",
+    key: 'Escape',
     action: close,
-    enable: !!openId
+    enable: !!openId,
   });
 
   return (
@@ -76,9 +72,9 @@ const List: FC<ListProps> = ({
             originY: 0,
           }}
           className={cn(
-            `absolute top-[110%]  w-max min-w-[170px] bg-white rounded-sm z-[9999] text-[12px] overflow-hidden `,
+            `absolute top-[110%] z-[9999] w-max min-w-[170px] overflow-hidden rounded-sm bg-white text-[12px]`,
             className,
-            position === "bottom-left" ? "left-0" : "right-0"
+            position === 'bottom-left' ? 'left-0' : 'right-0',
           )}
         >
           {children}
@@ -104,11 +100,11 @@ const Button: FC<ButtonProps> = ({ children, onClick, className }) => {
   };
 
   return (
-    <li className={"w-full"}>
+    <li className={'w-full'}>
       <button
         onClick={handleClick}
         type="button"
-        className={cn("text-left px-4 py-3 w-full", className)}
+        className={cn('w-full px-4 py-3 text-left', className)}
       >
         {children}
       </button>
@@ -125,9 +121,9 @@ const Menu: FC<MenuProps> & {
   List: typeof List;
   Button: typeof Button;
 } = ({ children }) => {
-  const [openId, setOpenId] = useState<string>("");
+  const [openId, setOpenId] = useState<string>('');
 
-  const close = () => setOpenId("");
+  const close = () => setOpenId('');
 
   return (
     <MenuContext.Provider
@@ -137,9 +133,7 @@ const Menu: FC<MenuProps> & {
         close,
       }}
     >
-      <div className="flex items-center justify-end relative rounded-md">
-        {children}
-      </div>
+      <div className="relative flex items-center justify-end rounded-md">{children}</div>
     </MenuContext.Provider>
   );
 };

@@ -1,7 +1,7 @@
-import React from "react";
-import { IoMdClose } from "react-icons/io";
-import Button from "./Button";
-import SpinnerMini from "./Loader";
+import React from 'react';
+import { IoMdClose } from 'react-icons/io';
+import Button from './Button';
+import SpinnerMini from './Loader';
 
 interface ConfirmDeleteProps {
   title: string;
@@ -21,25 +21,25 @@ const ConfirmDelete: React.FC<ConfirmDeleteProps> = ({
   };
 
   return (
-    <div className=" flex flex-col gap-3 px-6 py-8 relative">
+    <div className="relative flex flex-col gap-3 px-6 py-8">
       <button
         type="button"
-        className=" p-1 border-0  hover:opacity-70 transition absolute right-3 top-3"
+        className="absolute right-3 top-3 border-0 p-1 transition hover:opacity-70"
         onClick={() => onCloseModal?.()}
       >
         <IoMdClose size={20} />
       </button>
       <h1 className="text-[22px] font-bold text-gray-800">{title}</h1>
-      <p className="text-gray-700  text-[16px] leading-[1.6] mb-4">
+      <p className="mb-4 text-[16px] leading-[1.6] text-gray-700">
         Are you sure you want to do this? It can&apos;t be undone.
       </p>
 
-      <div className="flex items-center gap-3 mt-1 h-[40px]">
+      <div className="mt-1 flex h-[40px] items-center gap-3">
         <Button onClick={() => onCloseModal?.()} className="h-full" outline>
           Cancel
         </Button>
-        <Button onClick={onAction} className="h-full flex items-center justify-center">
-          {isLoading ? <SpinnerMini  /> : <span> Confirm</span>}
+        <Button onClick={onAction} className="flex h-full items-center justify-center">
+          {isLoading ? <SpinnerMini /> : <span> Confirm</span>}
         </Button>
       </div>
     </div>

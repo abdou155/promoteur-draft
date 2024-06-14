@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 interface IUseOutsideClick {
   action: (e: MouseEvent) => void;
@@ -21,13 +21,12 @@ export const useOutsideClick = ({
     };
 
     if (enable) {
-      document.addEventListener("click", handleClick, listenCapturing);
+      document.addEventListener('click', handleClick, listenCapturing);
     } else {
-      document.removeEventListener("click", handleClick, listenCapturing);
+      document.removeEventListener('click', handleClick, listenCapturing);
     }
 
-    return () =>
-      document.removeEventListener("click", handleClick, listenCapturing);
+    return () => document.removeEventListener('click', handleClick, listenCapturing);
   }, [action, listenCapturing, enable]);
 
   return { ref };

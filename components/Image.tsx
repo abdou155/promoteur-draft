@@ -1,7 +1,7 @@
-"use client";
-import { useState } from "react";
-import Image from "next/image";
-import { cn } from "@/utils/helper";
+'use client';
+import { useState } from 'react';
+import Image from 'next/image';
+import { cn } from '@/utils/helper';
 
 const CustomImage = ({
   imageSrc,
@@ -10,14 +10,14 @@ const CustomImage = ({
   className,
   priority = false,
   effect,
-  sizes
+  sizes,
 }: {
   imageSrc: string;
   fill?: boolean;
   alt: string;
   className?: string;
   priority?: boolean;
-  effect?: "zoom";
+  effect?: 'zoom';
   sizes?: string;
 }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -27,9 +27,9 @@ const CustomImage = ({
       fill={fill}
       className={cn(
         `transition duration-300`,
-        effect === "zoom" && "scale-95",
-        isImageLoaded ? "opacity-100 scale-100" : "opacity-0",
-        className
+        effect === 'zoom' && 'scale-95',
+        isImageLoaded ? 'scale-100 opacity-100' : 'opacity-0',
+        className,
       )}
       src={imageSrc}
       alt={alt}

@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 export const useLoadMore = (
   loadMoreData: () => void,
   hasMoreData: boolean | undefined,
   isLoading: boolean,
-  isError: boolean
+  isError: boolean,
 ) => {
   const ref = useRef(null);
 
@@ -20,7 +20,7 @@ export const useLoadMore = (
     };
     const observer = new IntersectionObserver(callbackFn, {
       root: null,
-      rootMargin: "240px",
+      rootMargin: '240px',
       threshold: 0.1,
     });
 

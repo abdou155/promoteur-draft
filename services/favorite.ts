@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import { db } from "@/lib/db";
-import { getCurrentUser } from "./user";
-import { revalidatePath } from "next/cache";
+import { db } from '@/lib/db';
+import { getCurrentUser } from './user';
+import { revalidatePath } from 'next/cache';
 
 export const getFavorites = async () => {
   try {
@@ -32,15 +32,15 @@ export const updateFavorite = async ({
   favorite: boolean;
 }) => {
   try {
-    if (!listingId || typeof listingId !== "string") {
-      throw new Error("Invalid ID");
+    if (!listingId || typeof listingId !== 'string') {
+      throw new Error('Invalid ID');
     }
 
     const favorites = await getFavorites();
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
-      throw new Error("Please sign in to favorite the listing!");
+      throw new Error('Please sign in to favorite the listing!');
     }
 
     let newFavorites;
@@ -67,9 +67,9 @@ export const updateFavorite = async ({
       },
     });
 
-    revalidatePath("/");
+    revalidatePath('/');
     revalidatePath(`/listings/${listingId}`);
-    revalidatePath("/favorites");
+    revalidatePath('/favorites');
 
     return {
       hasFavorited,
